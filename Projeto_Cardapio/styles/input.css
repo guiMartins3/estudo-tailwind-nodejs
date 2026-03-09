@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@layer base {
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+}
+
+@layer utilities {
+    .bg-home {
+        background-image: url('/assets/bg-home.png');
+    }
+}
+
+body{
+    background-color: #F6F7F8;
+}
+
+
