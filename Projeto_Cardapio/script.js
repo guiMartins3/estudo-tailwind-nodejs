@@ -13,6 +13,7 @@ let cart = [];
 
 // Abrir o Modal do carrinho
 cartBtn.addEventListener("click", function(){
+    updateCartModal();
     cartModal.style.display = "flex"
 })
 
@@ -41,7 +42,6 @@ menu.addEventListener("click", function(event){
     }
 })
 
-
 // Função para adicionar no carrinho
 function addToCart(name, price){
     // Verificar se o item já existe no carrinho
@@ -59,4 +59,47 @@ function addToCart(name, price){
         })
     }
 
+    updateCartModal()
+}
+
+// Atualiza o carrinho
+function updateCartModal(){
+    cartItemsContainer.innerHTML = "";
+    let total = 0
+
+    cart.forEach(item => {
+        const cartItemElement = document.createElement("div")
+        cartItemElement.classList.add("flex", "justify-between", "mb-4", "flex-col")
+
+        cartItemElement.innerHTML = `
+        <div class="flex items-center justify-between">
+            <div>
+                <p class="font-medium">${item.name}</p>
+                <p>Qtd: ${item.quantity}</p>
+                <p class="font-medium mt-2">R$ ${item.price.toFixed(2)}</p>
+            </div>
+
+            <button>
+                Remover
+            </button>
+           
+        </div>
+    `
+
+    // Calcula o total
+    total += item.price * item.quantity
+
+    // Adiciona o elemento html criado no container do carrinho
+    cartItemsContainer.appendChild(cartItemElement)
+    })
+
+    // Mostrando o total formatado em reais
+    cartTotal.textContent = total.toLocaleString("pt-br", {
+        style: "currency",
+        currency: "BRL"
+    })
+
+    
+    // Atualiza o contador do carrinho no footer
+    cartCounter.innerHTML = cart.length
 }
