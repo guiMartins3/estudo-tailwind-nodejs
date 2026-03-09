@@ -145,4 +145,13 @@ addressInput.addEventListener("input", function(event){
     }
 })
 
+// Lógica para finalizar o carrinho
+checkoutBtn.addEventListener("click", function(){
+    if(cart.lenght === 0 ) return
 
+    if(addressInput.value === ""){
+        addressWarn.classList.remove("hidden")
+        addressInput.classList.add("border-red-500")
+        return
+    }
+})
