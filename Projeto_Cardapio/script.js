@@ -7,7 +7,7 @@ const checkoutBtn = document.getElementById("checkout-btn")
 const closeModalBtn = document.getElementById("close-modal-btn")
 const cartCounter = document.getElementById("cart-count")
 const addressInput = document.getElementById("address")
-const addressWarning = document.getElementById("address-warn")
+const addressWarn = document.getElementById("address-warn")
 
 let cart = [];
 
@@ -133,3 +133,16 @@ function removeItemCart(name){
         updateCartModal()
     }    
 }
+
+// Função para pegar o que for digitado
+addressInput.addEventListener("input", function(event){
+    let inputValue = event.target.inputValue
+
+    // Verificar se esta digitando algo
+    if(inputValue !== ""){
+        addressInput.classList.remove("border-red-500")
+        addressWarn.classList.add("hidden")
+    }
+})
+
+
