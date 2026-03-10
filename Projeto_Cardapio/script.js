@@ -145,13 +145,69 @@ addressInput.addEventListener("input", function(event){
     }
 })
 
-// Lógica para finalizar o carrinho
+// Lógica para finalizar pedido do carrinho
 checkoutBtn.addEventListener("click", function(){
-    if(cart.lenght === 0 ) return
+    const isOpen = checkResteurantOpen()
+    if(!isOpen){
+        Toastify({
+            text: "Ops o resturante está fechado!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            stopOnFocus: true,
+            style: {
+                background: "#ef4444",
+            }
+        }).showToast()
+        return
+    }
+
+    //Se estiver vazio vai barrar
+    if(cart.length === 0 ) return
 
     if(addressInput.value === ""){
         addressWarn.classList.remove("hidden")
         addressInput.classList.add("border-red-500")
         return
     }
+
+    // Enviar o pedido para API whatsapp
+    const cartItems = cart.map((item) => {
+        return (
+            `${item.name} Quantidade: (${item.quantity}) Preço: R$${item.price} |`
+        )
+    }).join("")
+
+    const message = encodeURIComponent(cartItems)
+    const phone = ""
+
+    // Redireciona para o whatsapp em uma nova página
+    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}, "_blank"`)
+
+    // Deixando o carrinho vazio após o pedido
+    cart = []
+    // Atualizando visualmente a modificação
+    updateCartModal()
 })
+
+// Verificar a hora e manipular o card horário
+function checkResteurantOpen(){
+    const data = new Date()
+    const hora = data.getHours()
+    return hora >= 18 && hora < 22 //True = restaurante aberto
+}
+
+const spanItem = document.getElementById("date-span")
+const isOpen = checkResteurantOpen()
+
+// Muda a cor do card se estiver aberto ou fechado
+if(isOpen){
+    spanItem.classList.remove("bg-red-500")
+    spanItem.classList.add("bg-green-600")
+} else{
+    spanItem.classList.remove("bg-green-600")
+    spanItem.classList.add("bg-red-500")
+}
+
+
